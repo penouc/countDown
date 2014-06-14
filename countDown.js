@@ -12,10 +12,10 @@
 
 		var length = arguments.length;
 		var eleName = Array.prototype.pop.call(arguments);
-		console.log(length == 0 || document.getElementById(eleName));
+		var tarEle = document.getElementById(eleName);
 
-		if (length == 0 && document.getElementById(eleName)) {
-			alert('请输入参数并且给定要添加倒计时的元素id')
+		if (length == 0 || !tarEle || length > 2 && length < 7) {
+			alert('请输入正确的参数并且给定要添加倒计时的元素id')
 			return;
 		}
 		if (length == 1) {
@@ -26,9 +26,6 @@
             leftSecond = arguments[0];
             element = arguments[1];
 		}
-		if (length > 2 && length < 7) {
-			alert('请输入正确的参数个数');
-		}
 		if (length == 7) {
 			var dat = year + '-' + month + '-' + day;
 			var tim = hour + ':' + minute + ':' + second;
@@ -38,11 +35,31 @@
 
 			if (pattDat.test(dat) && pattTim.test(tim)) {
 				var endTim  = new Date(year,month - 1,day,hour,minute,second);         //定义结束时间
-				var currTim	= new Date();											   //获取当前时间						
-			};
-		};
+				var currTim	= new Date();											   //获取当前时间
+				var leftSecond = (endTim.getTime() - currTim.getTime())/1000;
+
+			}
+		}
+
+		var o_day = Math.floor(leftSecond/(24*60*60));
+		var o_hour = Math.floor((leftSecond - o_day*24*60*60)/(60*60));
+		var o_minute = Math.floor((leftSecond - o_day*24*60*60 - o_hour*60*60)/60);
+		var o_second = Math.floor(leftSecond - o_day*24*60*60 - o_hour*60*60 - o_minute*60);
+
+		if (o_day < 0) {
+			o_day = 0;
+			o_hour = 0;
+			o_minute = 0;
+			o_second = 0;
+
+			alert("不要回到过去");
+			return ;
+		}
+
+		tarEle.innerHTML = o_day+":"+o_hour+":"+o_minute+":"+o_second;
+
 	}
 
-	countDown(2014,11,07,11,01,08,'popop');
+	setInterval(function(){countDown(2014,06,13,22,05,58,'ntp-contents')},1000);       //此处修改时间注入
 
-})() 
+})()
