@@ -12,7 +12,7 @@
 
 		var length = arguments.length;
 		var eleName = Array.prototype.pop.call(arguments);
-		var tarEle = document.getElementById(eleName);
+		var tarEle = document.getElementsByClassName(eleName);
 
 		if (length == 0 || !tarEle || length > 2 && length < 7) {
 			alert('请输入正确的参数并且给定要添加倒计时的元素id')
@@ -29,9 +29,6 @@
 		if (length == 7) {
 			var dat = year + '-' + month + '-' + day;
 			var tim = hour + ':' + minute + ':' + second;
-
-			console.log(dat,pattDat.test(dat));
-			console.log(tim,pattTim.test(tim));
 
 			if (pattDat.test(dat) && pattTim.test(tim)) {
 				var endTim  = new Date(year,month - 1,day,hour,minute,second);         //定义结束时间
@@ -56,10 +53,13 @@
 			return ;
 		}
 
-		tarEle.innerHTML = o_day+":"+o_hour+":"+o_minute+":"+o_second;
+		for (var i = 0; i <= tarEle.length; i++) {
+			tarEle[i].innerHTML = o_day+":"+o_hour+":"+o_minute+":"+o_second;
+		};
+		
 
 	}
 
-	setInterval(function(){countDown(2014,06,13,22,05,58,'ntp-contents')},1000);       //此处修改时间注入
+	setInterval(function(){countDown(2014,06,18,22,03,58,'ntp-contents')},1000);       //此处修改时间
 
 })()
